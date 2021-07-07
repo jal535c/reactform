@@ -20,17 +20,42 @@ class App extends Component {
   }
 
   componentWillMount() {
-    var url = "https://jsonplaceholder.typicode.com/users";
-    //var url = "https://randomuser.me/api?results=5";
+    //var url = "https://jsonplaceholder.typicode.com/users";
+    var url = "https://randomuser.me/api?results=10";
     
     axios.get(url)
     .then(res=>{
-      console.log(res.data);
-      this.setState({
-        users: res.data,
-        id: res.data.length
-      });
+      console.log(res);
+
+      // this.setState({
+      //   users: res.data,
+      //   id: res.data.length
+      // });
+
+      this.crearModelo(res.data.results);
     });    
+  }
+
+
+  crearModelo = (arr) => {    
+    let lista = [];
+    let i=1;
+
+    arr.map((item)=>{
+      let user = {
+        id: i,
+        name: item.name.first,
+        email: item.email
+      }
+      
+      lista.push(user);
+      i++;
+    });
+
+    this.setState({
+      users: lista,
+      id: lista.length,
+    });
   }
 
 
